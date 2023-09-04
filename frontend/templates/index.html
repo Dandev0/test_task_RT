@@ -1,0 +1,50 @@
+<html>
+<head><title>Форма</title></head>
+<body>
+
+
+<form id="form">
+   <input type="text" name="name" placeholder="Имя" />
+   <input type="text" name="surname" placeholder="Фамилия" />
+   <input type="text" name="last_name" placeholder="Отчество" />
+   <input type="number" name="phone_number" placeholder="Номер телефона" />
+   <input type="text" name="description_appeal" placeholder="Описание обращения" />
+   <button type="submit">Отправить</button>
+</form>
+
+<script>
+const form = document.getElementById('form')
+
+form.addEventListener('submit', async function(event) {
+  event.preventDefault()
+
+  const formData = new FormData(form)
+
+  let data = {}
+  for (let [key, value] of formData.entries()) {
+    data[key] = value
+  }
+
+  let response = await fetch('http://46.146.229.116:30001', {
+    method: 'POST',
+    mode: "no-cors",
+    headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*"
+    },
+    body: JSON.stringify({data})
+  });
+
+  let result = await response.json();
+
+  if(response.ok) {
+    console.log('Success')
+    console.log(result)
+  } else {
+    console.log('Failed')
+    console.log(result)
+  }
+})
+</script>
+</body>
+</html>
