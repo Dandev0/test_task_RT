@@ -5,7 +5,7 @@ import uvicorn
 import pika
 from pika import exceptions
 from sqlalchemy import create_engine
-from servicedb.config import SQLALCHEMY_DATABASE_URL
+from config import SQLALCHEMY_DATABASE_URL
 from sqlalchemy import Column, Integer, Text, UnicodeText, MetaData, Table, insert
 from sqlalchemy_utils import PhoneNumberType
 import ast

@@ -1,0 +1,64 @@
+version: "2.1"
+services:
+
+
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=test
+      - RABBITMQ_DEFAULT_PASS=test
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}]
+ 
+    hostname: rabbit_node1
+
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres_container_1
+    environment:
+      POSTGRES_DB: call_service
+      POSTGRES_USER: dandev0
+      POSTGRES_PASSWORD: Apassword_test21
+      PGDATA: /var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - /home/danil/.pgdata:/var/lib/postgresql/data
+    hostname: postgres_container
+
+
+  frontend:
+    image: frontend_image_1
+    container_name: frontend_container
+    ports:
+      - 30002:30002
+    expose:
+      - 30002
+    hostname: frontend_container
+
+
+  backend:
+    image: backend_image_1
+    container_name: backend_container
+    ports:
+      - 30001:30001
+    expose:
+      - 30001
+    hostname: backend_container
+
+
+  servicedb:
+    image: servicedb_image_1
+    container_name: servicedb_container
+    ports:
+      - 30000:30000
+    expose:
+      - 30000
+    hostname: servicedb_container

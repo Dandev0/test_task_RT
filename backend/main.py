@@ -3,12 +3,12 @@ import logging
 import tornado
 import pika
 from ast import literal_eval
-from backend.config import RABBITMQ_LOGIN, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_IP
+from config import RABBITMQ_LOGIN, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_IP
 
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('index.html')
+        pass
 
     def post(self):
         request_payload = str(literal_eval(self.request.body.decode('utf-8'))['data'])
