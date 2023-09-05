@@ -5,7 +5,7 @@ import uvicorn
 import pika
 from pika import exceptions
 from sqlalchemy import create_engine
-from config import SQLALCHEMY_DATABASE_URL, HOST, PORT
+from config import SQLALCHEMY_DATABASE_URL, HOST, PORT, RABBITMQ_LOGIN, RABBITMQ_PASSWORD, RABBITMQ_IP, RABBITMQ_PORT
 from sqlalchemy import Column, Integer, Text, UnicodeText, MetaData, Table, insert
 from sqlalchemy_utils import PhoneNumberType
 import ast
@@ -48,8 +48,8 @@ class Appeal:
 
 class Rabbit_listener:
     def __init__(self, message: str = None):
-        self.credentials = pika.PlainCredentials('test', 'test')
-        self.parameters = pika.ConnectionParameters(host='46.146.229.116', port=5672, virtual_host='/',
+        self.credentials = pika.PlainCredentials(username=RABBITMQ_LOGIN, password=RABBITMQ_PASSWORD)
+        self.parameters = pika.ConnectionParameters(host=RABBITMQ_IP, port=RABBITMQ_PORT, virtual_host='/',
                                                     credentials=self.credentials)
         self.connection = None
         self.channel = None
