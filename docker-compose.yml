@@ -4,6 +4,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.10.7-management
+    restart: "always"
     ports:
       - 15672:15672
       - 5672:5672
@@ -20,6 +21,7 @@ services:
   postgres:
     image: postgres:14-alpine
     container_name: postgres_container_1
+    restart: "always"
     environment:
       POSTGRES_DB: call_service
       POSTGRES_USER: dandev0
@@ -37,6 +39,7 @@ services:
   frontend:
     image: frontend_image_1
     container_name: frontend_container
+    restart: "always"
     ports:
       - 30002:30002
     expose:
@@ -46,6 +49,7 @@ services:
 
   backend:
     image: backend_image_1
+    restart: "always"
     container_name: backend_container
     ports:
       - 30001:30001
@@ -56,6 +60,7 @@ services:
 
   servicedb:
     image: servicedb_image_1
+    restart: "always"
     container_name: servicedb_container
     ports:
       - 30000:30000
