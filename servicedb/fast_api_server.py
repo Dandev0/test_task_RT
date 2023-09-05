@@ -1,6 +1,6 @@
 import logging
 import time
-from fastapi import FastAPI, Response, Request, Body, BackgroundTasks
+from fastapi import FastAPI, BackgroundTasks
 import uvicorn
 import pika
 from pika import exceptions
@@ -65,18 +65,18 @@ class Rabbit_listener:
                     self.get_message()
 
             except pika.exceptions.AMQPConnectionError:
-                time.sleep(3)
                 logging.warning('Error:\npika.exceptions.AMQPConnectionError\nReconnect to RabbitMQ')
+                time.sleep(3)
                 self.connect()
 
             except pika.exceptions.ConnectionClosedByBroker:
-                time.sleep(3)
                 logging.warning('Error:\npika.exceptions.ConnectionClosedByBroker\nReconnect to RabbitMQ')
+                time.sleep(3)
                 self.connect()
 
             except pika.exceptions.ConnectionWrongStateError as error:
-                time.sleep(3)
                 logging.warning('Error:\npika.exceptions.ConnectionWrongStateError\nReconnect to RabbitMQ')
+                time.sleep(3)
                 self.connect()
 
     @staticmethod
@@ -96,18 +96,18 @@ class Rabbit_listener:
             self.channel.start_consuming()
 
         except pika.exceptions.AMQPConnectionError:
-            time.sleep(3)
             logging.warning('Error:\npika.exceptions.AMQPConnectionError\nReconnect to RabbitMQ')
+            time.sleep(3)
             self.connect()
 
         except pika.exceptions.ConnectionClosedByBroker:
-            time.sleep(3)
             logging.warning('Error:\npika.exceptions.ConnectionClosedByBroker\nReconnect to RabbitMQ')
+            time.sleep(3)
             self.connect()
 
         except pika.exceptions.ConnectionWrongStateError as error:
-            time.sleep(3)
             logging.warning('Error:\npika.exceptions.ConnectionWrongStateError\nReconnect to RabbitMQ')
+            time.sleep(3)
             self.connect()
 
 
@@ -121,9 +121,9 @@ def start_web_server():
 
 
 if __name__ == "__main__":
-    thread1 = threading.Thread(target=start_web_server)
-    thread2 = threading.Thread(target=on_startup)
-    thread1.start()
-    thread2.start()
-    thread1.join(timeout=1)
-    thread2.join(timeout=1)
+    web_server = threading.Thread(target=start_web_server)
+    rabbit_listener = threading.Thread(target=on_startup)
+    web_server.start()
+    rabbit_listener.start()
+    web_server.join(timeout=1)
+    rabbit_listener.join(timeout=1)
